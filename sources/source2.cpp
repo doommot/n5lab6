@@ -81,22 +81,24 @@ void hash_thread()
 	
 	string seed;
 	string hash;
-	srand (time(0));
+	
 	if(!duration)
 		while(1)
 		{
 			seed = random_string();
 			// BOOST_LOG_TRIVIAL(trace) << "thread " << this_thread::get_id() << " gets random seed "<< seed;
 			hash = picosha2::hash256_hex_string(seed);
+			cout << "thread " << this_thread::get_id() << " gets random seed "<< seed << "\n";
 			// BOOST_LOG_TRIVIAL(trace) << "thread " << this_thread::get_id() << " gets hash "<< hash;
 			cout << "thread " << this_thread::get_id() << " gets hash "<< hash << "\n";
 
-			if(check_hash(hash)){
+			if(check_hash(hash))
+			{
 				// BOOST_LOG_TRIVIAL(info) << "valid hash found " << hash;
 				cout << "valid hash found! " << hash << "\n";
 				rand_mutex.lock();
 				freopen( "log_1.log", "a", stdout );
-				cout << "valid hash found " << hash << "\n";
+				cout << "valid hash found " << hash << " seed is " << seed << "\n";
 				fclose(stdout);
 				rand_mutex.unlock();
 			}
@@ -111,14 +113,16 @@ void hash_thread()
 			// BOOST_LOG_TRIVIAL(trace) << "thread " << this_thread::get_id() << " gets hash "<< hash;
 			cout << "thread " << this_thread::get_id() << " gets hash "<< hash << "\n";
 
-			if(check_hash(hash)){
+			if(check_hash(hash))
+			{
 				// BOOST_LOG_TRIVIAL(info) << "valid hash found " << hash;
 				cout << "valid hash found! " << hash << "\n";
 				rand_mutex.lock();
 				freopen( "log_1.log", "a", stdout );
-				cout << "valid hash found " << hash << "\n";
+				cout << "valid hash found " << hash << " seed is " << seed << "\n";
 				fclose(stdout);
-				rand_mutex.unlock();}
+				rand_mutex.unlock();
+			}
 	}
 }
 
@@ -127,9 +131,9 @@ string random_string() //создание строки HEX.
 	string seed;
 	char symbol;
 	int symbol_code;
-	// rand_mutex.lock();
+	rand_mutex.lock();
 	
-	// rand_mutex.unlock();
+	
 	for(int i = 0; i<hex_seed_length; i++)
 	{
 		// srand (time(NULL));
@@ -140,7 +144,7 @@ string random_string() //создание строки HEX.
 			symbol = symbol_code+7;
 		seed+=symbol;
 	}
-	
+	rand_mutex.unlock();
 	return seed;
 }
 
