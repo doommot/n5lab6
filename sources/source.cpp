@@ -52,14 +52,14 @@ int main(int argc, char *argv[])
 
 void init(int argc, char *argv[], unsigned int *thread_amount)
 {
-	/*
+
 	logging::core::get()->set_filter
 	(
 		logging::trivial::severity >= logging::trivial::debug // filter to output only significant records
 	);
 
 	logging::add_file_log(logging::keywords::file_name = "log_%N.log", logging::keywords::rotation_size = log_rotation_size * 1024 * 1024);
-	*/
+
 	//unsigned int hardware_concurrency = thread::hardware_concurrency;//debug
 
 	if(argc>1)
